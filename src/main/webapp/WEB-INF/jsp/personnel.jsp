@@ -16,42 +16,25 @@
 <script src="../js/jquery-1.11.0.min.js"></script>
 <script src="../js/personnel.js"></script>
 <script>
-var array = [
-	{
-		"潮南分公司":[
-		{
-			"市场部":[
-			{
-				"综合支撑部":["林敏","姚欣","曾素凤"]
-			},
-			{
-				"全业务组":["沈海强"]
-			},
-			"李旭森"]
-		},
-		{
-			"网络部":["陈楚山","纪达阳"]
-		},
-		"林凯","郭怀东"]
-	},	
-	{
-		"潮阳分公司":["小明","小红"]
-	},
-]
+var array = [];
 
 //初始化select
 window.onload = function(){
 	var select = $("#oneSelect");
-	for(var i=0,l=array.length;i<l;i++){
-		//如果该元素为对象，则表示该元素是一个部门
-		if(isJson(array[i])){
-			select.append("<OPTION value='\\" + Object.keys(array[i])[0] + "'>[+]" + Object.keys(array[i])[0] + "</OPTION>");
+ 	$.post("/PersonnelController/listPersonnel",{},function(data){
+		array = data.list;
+		for(var i=0,l=array.length;i<l;i++){
+			//如果该元素为对象，则表示该元素是一个部门
+			if(isJson(array[i])){
+				select.append("<OPTION value='\\" + Object.keys(array[i])[0] + "'>[+]" + Object.keys(array[i])[0] + "</OPTION>");
+			}
+			//如果该元素为字符串，则表示该元素一个员工
+			else{
+				select.append("<OPTION value='\\" + array[i] + "'>" + array[i] + "</OPTION>");
+			}
 		}
-		//如果该元素为字符串，则表示该元素一个员工
-		else{
-			select.append("<OPTION value='\\" + array[i] + "'>" + array[i] + "</OPTION>");
-		}
-	}
+
+	})
 }
 
 $("#oneSelect").on("click",function(){	
