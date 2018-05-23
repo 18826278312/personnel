@@ -64,6 +64,8 @@ public class PersonnelController {
 			for(int j=0;j<list.size();j++){
 				if (list.get(j).equals(sonMent[i])) {
 					
+					
+					
 				}
 			}
 		}
