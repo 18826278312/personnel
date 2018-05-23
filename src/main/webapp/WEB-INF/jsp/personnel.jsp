@@ -22,18 +22,21 @@ var array = [];
 window.onload = function(){
 	var select = $("#oneSelect");
  	$.post("/PersonnelController/listPersonnel",{},function(data){
-		array = data.list;
-		for(var i=0,l=array.length;i<l;i++){
-			//如果该元素为对象，则表示该元素是一个部门
-			if(isJson(array[i])){
-				select.append("<OPTION value='\\" + Object.keys(array[i])[0] + "'>[+]" + Object.keys(array[i])[0] + "</OPTION>");
-			}
-			//如果该元素为字符串，则表示该元素一个员工
-			else{
-				select.append("<OPTION value='\\" + array[i] + "'>" + array[i] + "</OPTION>");
-			}
-		}
-
+ 		if(data.status == "success"){
+ 			array = data.list;
+ 			for(var i=0,l=array.length;i<l;i++){
+ 				//如果该元素为对象，则表示该元素是一个部门
+ 				if(isJson(array[i])){
+ 					select.append("<OPTION value='\\" + Object.keys(array[i])[0] + "'>[+]" + Object.keys(array[i])[0] + "</OPTION>");
+ 				}
+ 				//如果该元素为字符串，则表示该元素一个员工
+ 				else{
+ 					select.append("<OPTION value='\\" + array[i] + "'>" + array[i] + "</OPTION>");
+ 				}
+ 			}
+ 		}else {
+ 			alert(data.info);
+ 		}
 	})
 }
 
@@ -123,40 +126,6 @@ function between(text){
 		return text.match(/\[(\S*)\]/)[1];
 	}catch(err){
 		return "";
-	}
-}
-
-function shrink(menu,arr){
-	var str = menu;
-	for(var i=0,l=arr.length;i<l;i++){
-		if(isJson(arr[i])){
-			str = menu + "\\\\" + Object.keys(arr[i])[0];
-			console.log(str);
-			$("option[value=" + str + "]:selected").remove();
-			shrink(str,arr[i][Object.keys(arr[i])[0]]);
-		}else{
-			str = menu + "\\\\" + arr[i];
-			console.log(str);
-			$("option[value=" + str + "]:selected").remove();
-		}
-	}
-}
-
-//递归解析算法
-function parseJson(arr){
-	//遍历数组
-	for(var i=0,l=arr.length;i<l;i++){
-		//如果该元素为对象，则表示该元素是一个子部门，继续递归x
-		if(isJson(arr[i])){
-			for(var key in arr[i]){
-				console.log(key+':');
-				parseJson(arr[i][key]);
-			}
-		}
-		//如果该元素为字符串，则表示该元素一个员工，则直接log
-		else{
-			console.log(arr[i]);
-		}
 	}
 }
 </script>

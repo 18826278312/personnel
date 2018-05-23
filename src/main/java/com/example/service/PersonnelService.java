@@ -12,5 +12,12 @@ public interface PersonnelService {
 	 * @param length
 	 * @return
 	 */
-	List<Object> listPerson(String parentMenu,String[] sonMent,List<String> list,int length);
+	List<Object> recursiveMenu(String parentMenu,String[] sonMent,List<String> list,int length);
+	
+	/**
+	 * 返回人员名单列表
+	 * @return
+	 * @throws Exception 
+	 */
+	List<Object> listPersonnel() throws Exception;
 }
