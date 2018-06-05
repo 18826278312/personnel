@@ -20,4 +20,6 @@ public interface PersonnelService {
 	 * @throws Exception 
 	 */
 	List<Object> listPersonnel() throws Exception;
+	
+	
 }

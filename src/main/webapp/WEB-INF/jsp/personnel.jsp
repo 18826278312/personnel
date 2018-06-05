@@ -8,9 +8,9 @@
 </head>
 <body>
 <div>
-<SELECT id="oneSelect" style="WIDTH:140px;HEIGHT:250px" size=15>
+<SELECT id="oneSelect" style="WIDTH:140px;HEIGHT:250px" size=15 onclick="clickSelect(this)">
 </SELECT>
-<SELECT id="oneList" style="WIDTH:140px;HEIGHT:250px" size=15>
+<SELECT id="oneList" style="WIDTH:140px;HEIGHT:250px" size=15 onclick="clickList(this)">
 </SELECT>
 </div>
 <script src="../js/jquery-1.11.0.min.js"></script>
@@ -40,10 +40,10 @@ window.onload = function(){
 	})
 }
 
-$("#oneSelect").on("click",function(){	
+function clickSelect(current){
 	var arr = array;
 	//获取选中的option
-	var option = $("option:selected",this);
+	var option = $("option:selected",current);
 	//获取菜单
 	var val = (option.val()).split('\\');
 	//获取内容
@@ -101,14 +101,23 @@ $("#oneSelect").on("click",function(){
 	//status为空串表示点击的是具体人员
 	else if(status == ""){
 		console.log("具体人员");
-		var select = $("#oneList");
-		select.append("<OPTION>" + option.text().trim("　") + "</OPTION>");
+		var text = option.text().trim("　");
+		var status = false;
+		//遍历所有option 
+	    $("#oneList option").each(function(){ 
+	    	if($(this).text() == text){
+	    		status = true;
+	    	}
+	    });
+		if(!status){
+			$("#oneList").append("<OPTION>" + text + "</OPTION>");
+		}
 	}
-})
+}
 
-$("#oneList").on("click",function(){
-	$("option:selected",this).remove();
-})
+function clickList(current){
+	$("option:selected",current).remove();
+}
 
 //判断该参数是否为对象
 function isJson(str) {
